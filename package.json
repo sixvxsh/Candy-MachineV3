@@ -1,0 +1,18 @@
+{
+  "name": "candy-machine",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@metaplex-foundation/js": "^0.18.3",
+    "@solana/web3.js": "^1.74.0",
+    "dotenv": "^16.0.3"
+  }
+}
