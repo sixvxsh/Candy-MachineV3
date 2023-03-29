@@ -44,30 +44,56 @@ console.log(
 
 
 // CM settings
-const candyMachineSettings = {
-  authority: ownerAuthority,
-  sellerFeeBasisPoints: 500,
-  maxEditionSupply: toBigNumber(0),
-  isMutable: true,
-  creators: [
-    {address: ownerAuthority.publicKey , share:100}
-  ],
+// const candyMachineSettings = {
+//   authority: ownerAuthority,
+//   sellerFeeBasisPoints: 500,
+//   maxEditionSupply: toBigNumber(0),
+//   isMutable: true,
+//   creators: [
+//     {address: ownerAuthority.publicKey , share:100}
+//   ],
+//   itemsAvailable: toBigNumber(4),
+//   itemSettings: {
+//     type: "configLines",
+//     prefixName: "My NFT Project #$ID+1$",
+//     nameLength: 0,
+//     prefixUri: "https://arweave.net/",
+//     uriLength: 43,
+//     isSequential: false,
+//   },
+//   collection: {
+//     address: collectionNft.address,
+//     updateAuthority: collectionAuthority,
+//   },
+  
+// };
+
+
+// create candy machine
+
+const {candyMachine} = await metaplex.candyMachines().create({
   itemsAvailable: toBigNumber(4),
-  itemSettings: {
-    type: "configLines",
-    prefixName: "My NFT Project #$ID+1$",
-    nameLength: 0,
-    prefixUri: "https://arweave.net/",
-    uriLength: 43,
-    isSequential: false,
-  },
+  sellerFeeBasisPoints: 500,
+  authority: ownerAuthority,
+  maxEditionSupply: toBigNumber(0),
+  isMutable:true,
   collection: {
     address: collectionNft.address,
-    updateAuthority: collectionAuthority,
+    updateAuthority: metaplex.identity(),
   },
-  
-};
+  creators: [
+    {address: ownerAuthority.publicKey, share:100}
+  ],
+  itemSettings: {
+    type: "configLines",
+    prefixName: "",
+    nameLength: 0,
+    prefixUri: "",
+    uriLength: 0,
+    isSequential: false,
+  }
 
+});
 
 
 
