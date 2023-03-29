@@ -29,6 +29,7 @@ const metaplex = Metaplex.make(connection).use(keypairIdentity(ownerAuthority,))
 // Create the Collection NFT.
 const collectionAuthority = Keypair.generate();
 console.log('collection publickey:' , collectionAuthority.publicKey.toBase58());
+const collectionUpdateAuthority = new PublicKey(collectionAuthority);
 
 const { nft: collectionNft } = await metaplex.nfts().create({
   name: "Honeyland Passes",
@@ -94,6 +95,7 @@ const {candyMachine} = await metaplex.candyMachines().create({
 });
 
 
+
 // inserting items
 await metaplex.candyMachines().insertItems({
   candyMachine,
@@ -106,6 +108,11 @@ await metaplex.candyMachines().insertItems({
 });
 
 
+// basic mint
+const { nft } = await metaplex.candyMachines().mint({
+  candyMachine,
+  collectionUpdateAuthority,
+});
 
 
 
