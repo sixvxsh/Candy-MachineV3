@@ -6,6 +6,8 @@ import {
     toMetaplexFile,
     NftWithToken,
     toBigNumber,
+    sol,
+    toDateTime,
   } from "@metaplex-foundation/js"
 import { initializeKeypair } from "./kp";
 
@@ -43,34 +45,8 @@ console.log(
 
 
 
-// CM settings
-// const candyMachineSettings = {
-//   authority: ownerAuthority,
-//   sellerFeeBasisPoints: 500,
-//   maxEditionSupply: toBigNumber(0),
-//   isMutable: true,
-//   creators: [
-//     {address: ownerAuthority.publicKey , share:100}
-//   ],
-//   itemsAvailable: toBigNumber(4),
-//   itemSettings: {
-//     type: "configLines",
-//     prefixName: "My NFT Project #$ID+1$",
-//     nameLength: 0,
-//     prefixUri: "https://arweave.net/",
-//     uriLength: 43,
-//     isSequential: false,
-//   },
-//   collection: {
-//     address: collectionNft.address,
-//     updateAuthority: collectionAuthority,
-//   },
-  
-// };
-
 
 // create candy machine
-
 const {candyMachine} = await metaplex.candyMachines().create({
   itemsAvailable: toBigNumber(4),
   sellerFeeBasisPoints: 500,
@@ -92,11 +68,33 @@ const {candyMachine} = await metaplex.candyMachines().create({
     prefixUri: "https://storage.googleapis.com/fractal-launchpad-public-assets/honeyland/assets_platinum_pass/",
     uriLength: 8,
     isSequential: false,
-  }
-
+  },
+  guards: {
+    botTax: { lamports: sol(0.01), lastInstruction: false },
+    redeemedAmount: {
+      maximum: toBigNumber(4),
+    },
+  },
+  groups: [
+    {
+      label: "off",
+      guards: {
+        solPayment: { amount: sol(0.5), destination: ownerAuthority.publicKey } ,
+        startDate: { date: toDateTime("2023-3-29T16:00:00Z") },
+      },
+    },
+    {
+      label: "primary",
+      guards: {
+        solPayment: { amount: sol(1), destination: ownerAuthority.publicKey } ,
+        startDate: { date: toDateTime("2023-3-29T20:00:00Z") },
+      }
+    },
+  ]
 });
 
 
+// inserting items
 await metaplex.candyMachines().insertItems({
   candyMachine,
   items: [
