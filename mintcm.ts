@@ -75,6 +75,7 @@ const {candyMachine} = await metaplex.candyMachines().create({
   itemsAvailable: toBigNumber(4),
   sellerFeeBasisPoints: 500,
   authority: ownerAuthority,
+  symbol: "HL_PL",
   maxEditionSupply: toBigNumber(0),
   isMutable:true,
   collection: {
@@ -86,16 +87,25 @@ const {candyMachine} = await metaplex.candyMachines().create({
   ],
   itemSettings: {
     type: "configLines",
-    prefixName: "",
-    nameLength: 0,
-    prefixUri: "",
-    uriLength: 0,
+    prefixName: "Platinum Pass #",
+    nameLength: 4,
+    prefixUri: "https://storage.googleapis.com/fractal-launchpad-public-assets/honeyland/assets_platinum_pass/",
+    uriLength: 8,
     isSequential: false,
   }
 
 });
 
 
+await metaplex.candyMachines().insertItems({
+  candyMachine,
+  items: [
+    {name:"008", uri:"8.json"},
+    {name:"144", uri:"144.json"},
+    {name:"135", uri:"135.json"},
+    {name:"196", uri:"196.json"},
+  ],
+});
 
 
 
