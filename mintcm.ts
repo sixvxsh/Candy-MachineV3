@@ -115,6 +115,8 @@ const candyMachine = await metaplex
   .candyMachines()
   .findByAddress({ address: new PublicKey("CAjHYg3AhuMRG5Qib2Hi5KSD6AdmRncQ5AjGaeDWQ6q7")});
 
+  console.log(candyMachine);
+
 
 // basic mint
 const { nft } = await metaplex.candyMachines().mint({
